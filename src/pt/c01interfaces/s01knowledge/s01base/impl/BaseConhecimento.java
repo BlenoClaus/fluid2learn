@@ -39,12 +39,10 @@ public class BaseConhecimento implements IBaseConhecimento
     		BufferedReader formatado = new BufferedReader(arquivo);
     	    
     	    String linha = formatado.readLine();
-    	    //System.out.println("TESTE1:"+ linha);
     	    
     	    while (linha != null)
     	    {
     	    	IDeclaracao decl = montaDeclaracao(linha);
-    	    	//System.out.println("TESTE2:"+ decl);
     	    	if (decl != null)
     	    		vdecl.add(decl);
     	    	

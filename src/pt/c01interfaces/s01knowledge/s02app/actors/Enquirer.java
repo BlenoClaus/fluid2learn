@@ -25,7 +25,10 @@ public class Enquirer implements IEnquirer
 		/*Duas Colecoes que auxilia para nao repetir perguntas*/
 		ArrayList<String> perguntasFeitas = new ArrayList<String>();
 		ArrayList<String> respostasFeitas = new ArrayList<String>();
-				
+		
+	
+		
+		
 		/*	Testanto Tiranossauro :		*/
 		boolean ehTiranosauro = testaAnimal("tiranossauro", responder, perguntasFeitas, respostasFeitas);
 		
