@@ -1,5 +1,7 @@
 package pt.c02classes.s01knowledge.s02app.actors;
 
+import java.util.ArrayList;
+
 import pt.c02classes.s01knowledge.s01base.impl.BaseConhecimento;
 import pt.c02classes.s01knowledge.s01base.inter.IBaseConhecimento;
 import pt.c02classes.s01knowledge.s01base.inter.IDeclaracao;
@@ -16,27 +18,81 @@ public class EnquirerAnimals implements IEnquirer {
 	}
 	
 	public boolean discover() {
-        IBaseConhecimento bc = new BaseConhecimento();
-        IObjetoConhecimento obj;
+		/*Duas Colecoes que auxilia para nao repetir perguntas*/
+		ArrayList<String> perguntasFeitas = new ArrayList<String>();
+		ArrayList<String> respostasFeitas = new ArrayList<String>();
 		
-		bc.setScenario("animals");
-        obj = bc.recuperaObjeto("tiranossauro");
+		/*	Testanto Tiranossauro :		*/
+		boolean ehTiranosauro = testaAnimal("tiranossauro", responder, perguntasFeitas, respostasFeitas);
+		
+		if ( ehTiranosauro )
+			return finalizaTentativa(responder,"tiranossauro");
+		
+		/*	Testanto Humano :	*/
+		boolean ehHumano = testaAnimal("humano", responder, perguntasFeitas, respostasFeitas);
+		
+		if ( ehHumano )
+			return finalizaTentativa(responder,"humano");
+		
+		/*	Testanto Aranha :	*/
+		boolean ehAranha = testaAnimal("aranha", responder, perguntasFeitas, respostasFeitas);
 
+		if ( ehAranha )
+			return finalizaTentativa(responder,"aranha");
+		
+		/*	Testanto Camarao :	*/
+		boolean ehCamarao = testaAnimal("camarao", responder, perguntasFeitas, respostasFeitas);
+
+		if ( ehCamarao )
+			return finalizaTentativa(responder,"camarao");
+		
+		/*	Testanto Pikachu :	*/
+		boolean ehPikachu = testaAnimal("pikachu", responder, perguntasFeitas, respostasFeitas);
+
+		if ( ehPikachu )
+			return finalizaTentativa(responder,"pikachu");
+		
+		return false;	
+	}
+	
+	private boolean testaAnimal( String animal, IResponder responder, ArrayList<String> s1, ArrayList<String> s2 )
+	{
+		
+		IBaseConhecimento bc = new BaseConhecimento();
+		bc.setScenario("animals");
+		String pergunta, respostaEsperada, resposta ; 
+		
+		IObjetoConhecimento obj = bc.recuperaObjeto(animal);
 		IDeclaracao decl = obj.primeira();
 		
-        boolean animalEsperado = true;
-		while (decl != null && animalEsperado) {
-			String pergunta = decl.getPropriedade();
-			String respostaEsperada = decl.getValor();
+		boolean achou = true;
+		while (decl != null && achou) {
+			pergunta = decl.getPropriedade();
+			respostaEsperada = decl.getValor();
 			
-			String resposta = responder.ask(pergunta);
+			/* Caso ja tenha feito essa pergunta, busco sua resposta que ja foi salva
+			 * e nao eh necessario utilizar a funcao ask */
+			if ( s1.contains(pergunta))
+				resposta = s2.get( s1.indexOf(pergunta) );
+			else
+			{
+				resposta = responder.ask(pergunta);
+				s1.add(pergunta);
+				s2.add(resposta);
+			}
+			
 			if (resposta.equalsIgnoreCase(respostaEsperada))
 				decl = obj.proxima();
 			else
-				animalEsperado = false;
+				achou = false;		
 		}
 		
-		boolean acertei = responder.finalAnswer("tiranossauro");
+		return achou;
+	}
+	
+	private boolean finalizaTentativa(IResponder responder, String animal)
+	{
+		boolean acertei = responder.finalAnswer(animal);
 		
 		if (acertei)
 			System.out.println("Oba! Acertei!");

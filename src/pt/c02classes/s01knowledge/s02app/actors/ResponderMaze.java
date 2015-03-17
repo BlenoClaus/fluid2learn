@@ -36,7 +36,6 @@ public class ResponderMaze implements IResponder {
 			
 			linhaAtual = pos / nColunas;
 			colunaAtual = pos - (linhaAtual * nColunas);
-			
 			mazeMatrix = mazeFlat.toCharArray();
 		}
 	}
@@ -100,5 +99,6 @@ public class ResponderMaze implements IResponder {
 	public boolean finalAnswer(String answer) {
 		return (mazeMatrix[linhaAtual*nColunas+colunaAtual] == 'S');
 	}
+	
 
 }

@@ -18,16 +18,12 @@ public class Enquirer implements IEnquirer
 	{
 	}
 	
-	
 	@Override
 	public void connect(IResponder responder)
 	{
 		/*Duas Colecoes que auxilia para nao repetir perguntas*/
 		ArrayList<String> perguntasFeitas = new ArrayList<String>();
 		ArrayList<String> respostasFeitas = new ArrayList<String>();
-		
-	
-		
 		
 		/*	Testanto Tiranossauro :		*/
 		boolean ehTiranosauro = testaAnimal("tiranossauro", responder, perguntasFeitas, respostasFeitas);
@@ -104,7 +100,7 @@ public class Enquirer implements IEnquirer
 		return achou;
 	}
 	
-	private void finalizaTentativa(IResponder responder, String animal)
+	private boolean finalizaTentativa(IResponder responder, String animal)
 	{
 		boolean acertei = responder.finalAnswer(animal);
 		
@@ -112,6 +108,8 @@ public class Enquirer implements IEnquirer
 			System.out.println("Oba! Acertei!");
 		else
 			System.out.println("fuem! fuem! fuem!");
+		
+		return acertei;
 	}
 
 }
